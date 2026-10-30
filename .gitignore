@@ -1,0 +1,20 @@
+# Versões antigas e cópias de segurança locais (o histórico agora fica no Git)
+backup_*/
+*.zip
+Relógio Monitor de Motor.html
+
+# Saídas de compilação
+build/
+*.bin
+*.elf
+*.map
+
+# Python
+__pycache__/
+*.pyc
+
+# Sistema e editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
