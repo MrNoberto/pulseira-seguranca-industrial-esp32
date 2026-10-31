@@ -192,4 +192,4 @@ Detalhes, a saída completa da simulação, os diagnósticos de hardware e os pr
 
 ## Créditos
 
-Projeto desenvolvido por **Lucas Noberto** para o Ideathon da **Trilha da Inovação** — **Sebrae** em parceria com a **ArcelorMittal**.
+Projeto desenvolvido por **Lucas Noberto**, **Abel Marques** e **Lucas Magalhães** para o Ideathon da **Trilha da Inovação** — **Sebrae** em parceria com a **ArcelorMittal**.
