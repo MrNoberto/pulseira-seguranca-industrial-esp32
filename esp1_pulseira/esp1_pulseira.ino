@@ -1,6 +1,6 @@
 /*
   ============================================================
-   ESP1 - PULSEIRA  -  Projeto "Pulseira Monitor de Motor"
+   ESP1 - SENTRYBAND (pulseira)  -  Projeto SentryBand
    Placa: ESP32 DevKit (o "tradicional", 30 ou 38 pinos)
    Autor: Noberto
   ============================================================

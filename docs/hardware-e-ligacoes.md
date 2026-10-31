@@ -6,8 +6,8 @@ Este documento lista todos os componentes do projeto e onde cada fio foi ligado,
 
 | Qtd | Componente | Onde fica | Função |
 |---|---|---|---|
-| 1 | Placa ESP32 DevKit (módulo ESP-32S, chip ESP32-D0WD-V3, 4 MB de flash) | ESP1 – pulseira | Recebe os dados por rádio, mede a distância até a zona e dá os alertas |
-| 1 | Placa ESP32 DevKit tradicional (chip ESP32-D0WD-V3) | ESP2 – máquina | Lê os sensores, decide os alarmes e transmite |
+| 1 | Placa ESP32 DevKit (módulo ESP-32S, chip ESP32-D0WD-V3, 4 MB de flash) | ESP1 – SentryBand | Recebe os dados por rádio, mede a distância até a zona e dá os alertas |
+| 1 | Placa ESP32 DevKit tradicional (chip ESP32-D0WD-V3) | ESP2 – Sentinela | Lê os sensores, decide os alarmes e transmite |
 | 1 | Placa ESP32-S3 mini (ESP32-S3 QFN56, 4 MB de flash e 2 MB de PSRAM embutidos, USB nativa) | ESP3 – zona de perigo | Farol de rádio que marca o centro da zona |
 | 1 | Display OLED 0,96" 128×64, controlador SSD1306, I2C (4 pinos) | ESP1 | Tela da pulseira |
 | 1 | Buzzer passivo KY-006 | ESP1 | Bipes de alerta (tons gerados por PWM) |
@@ -23,7 +23,7 @@ O giroscópio do MPU6050 não é usado: para medir vibração basta o acelerôme
 
 ```mermaid
 flowchart LR
-    subgraph ESP1["ESP1 · Pulseira (ESP32)"]
+    subgraph ESP1["ESP1 · SentryBand (ESP32)"]
         direction TB
         P1_21["GPIO 21 (SDA)"]
         P1_22["GPIO 22 (SCL)"]
@@ -42,7 +42,7 @@ flowchart LR
     P1_25 --- LA
     P1_26 --- LM
 
-    subgraph ESP2["ESP2 · Máquina (ESP32)"]
+    subgraph ESP2["ESP2 · Sentinela (ESP32)"]
         direction TB
         P2_4["GPIO 4"]
         P2_SPI["GPIO 5 · 18 · 21 · 22 · 23 (SPI)"]
@@ -58,11 +58,11 @@ flowchart LR
     ESP3["ESP3 · Zona (ESP32-S3)<br/>sem fios, só alimentação USB"]
 ```
 
-## ESP1 – pulseira
+## ESP1 – SentryBand (pulseira)
 
 | ESP | Módulo | Pino do módulo | Liga no pino |
 |---|---|---|---|
-| **ESP1 (pulseira)** | Tela OLED 0,96" | VCC | 3V3 |
+| **ESP1 (SentryBand)** | Tela OLED 0,96" | VCC | 3V3 |
 | | | GND | GND |
 | | | SCL | GPIO 22 |
 | | | SDA | GPIO 21 |
@@ -79,11 +79,11 @@ flowchart LR
 - O botão **BOOT** da própria placa (GPIO 0, escrito "IO0" em algumas placas) controla a zona de perigo. Não precisa de fio.
 - O firmware também aceita 4 LEDs (`QUANTIDADE_LEDS 4`): um par azul/amarelo para a máquina (GPIO 25 e 26) e outro para a zona (GPIO 27 e 33).
 
-## ESP2 – máquina
+## ESP2 – Sentinela (máquina)
 
 | ESP | Módulo | Pino do módulo | Liga no pino |
 |---|---|---|---|
-| **ESP2 (máquina)** | DHT11 (KY-015) | S | GPIO 4 |
+| **ESP2 (Sentinela)** | DHT11 (KY-015) | S | GPIO 4 |
 | | | meio (+) | 3V3 |
 | | | − | GND |
 | | Tela TFT 1.8" (ST7735) | VCC | 3V3 |

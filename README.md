@@ -1,6 +1,6 @@
-# Pulseira de Segurança Industrial com ESP32
+# SentryBand: pulseira de segurança industrial com ESP32
 
-Sistema de segurança do trabalho com três ESP32 que conversam por rádio (ESP-NOW), feito para o **Ideathon da Trilha da Inovação do Sebrae em parceria com a ArcelorMittal**. A pulseira do trabalhador avisa com bipes, luzes e tela quando ele entra numa **zona de perigo**, quando a máquina **esquenta demais** (indício de incêndio) e quando ela **vibra de forma anormal** (indício de acidente).
+Sistema de segurança do trabalho com três ESP32 que conversam por rádio (ESP-NOW), feito para o **Ideathon da Trilha da Inovação do Sebrae em parceria com a ArcelorMittal**. A **SentryBand**, pulseira do trabalhador, avisa com bipes, luzes e tela quando ele entra numa **zona de perigo**. O **Sentinela**, instalado na máquina, detecta quando ela **esquenta demais** (indício de incêndio) ou **vibra de forma anormal** (indício de acidente) e manda o alerta para a pulseira.
 
 ![ESP32](https://img.shields.io/badge/ESP32-Arduino%20core%203.3-E7352C)
 ![ESP-NOW](https://img.shields.io/badge/r%C3%A1dio-ESP--NOW-0A7BBB)
@@ -8,7 +8,7 @@ Sistema de segurança do trabalho com três ESP32 que conversam por rádio (ESP-
 ![Python](https://img.shields.io/badge/testes-Python-3776AB)
 ![Status](https://img.shields.io/badge/status-prot%C3%B3tipo%20apresentado-2EA44F)
 
-| Pulseira (OLED) | Painel da máquina (TFT) |
+| SentryBand (OLED) | Sentinela (TFT) |
 |---|---|
 | ![Pulseira dentro da zona de perigo](docs/imagens/oled-zona.png) | ![Painel da máquina](docs/imagens/tft-normal.png) |
 | ![Pulseira com alarme de temperatura](docs/imagens/oled-temperatura.png) | ![Painel com alarme de vibração](docs/imagens/tft-vibracao.png) |
@@ -54,12 +54,12 @@ flowchart LR
     subgraph Z["ESP3 · Zona de perigo (ESP32-S3)"]
         F["Farol ESP-NOW<br/>10 sinais/s · 8,5 dBm"]
     end
-    subgraph M["ESP2 · Máquina (ESP32)"]
+    subgraph M["ESP2 · Sentinela (ESP32)"]
         DHT["DHT11<br/>temperatura"] --> D["Decide alarmes<br/>(histerese e persistência)"]
         MPU["MPU6050<br/>vibração 500 Hz"] --> D
         D --> TFT["TFT 1.8'' ST7735<br/>painel"]
     end
-    subgraph P["ESP1 · Pulseira (ESP32)"]
+    subgraph P["ESP1 · SentryBand (ESP32)"]
         R["Recepção ESP-NOW"] --> E["Estados e alarmes"]
         RS["RSSI → distância<br/>(log-distância + EMA)"] --> E
         BT["Botão BOOT<br/>distância e calibração"] --> RS
@@ -74,8 +74,8 @@ flowchart LR
 
 | Placa | Papel |
 |---|---|
-| **ESP1 – Pulseira** | Fica com o trabalhador. Recebe os dados da máquina, mede a distância até a zona de perigo e avisa com bipes, LEDs e tela. |
-| **ESP2 – Máquina** | Fica na máquina. Lê temperatura e vibração, **decide os alarmes** e transmite a cada segundo. Mostra tudo numa TFT colorida. |
+| **ESP1 – SentryBand** (pulseira) | Fica com o trabalhador. Recebe os dados da máquina, mede a distância até a zona de perigo e avisa com bipes, LEDs e tela. |
+| **ESP2 – Sentinela** (máquina) | Fica na máquina. Lê temperatura e vibração, **decide os alarmes** e transmite a cada segundo. Mostra tudo numa TFT colorida. |
 | **ESP3 – Zona** | Fica no centro da área perigosa. É só um farol de rádio: não tem nenhum fio, só alimentação USB. |
 
 A comunicação é por **ESP-NOW em broadcast no canal 1**: sem roteador, sem internet e com latência de milissegundos. Formato byte a byte das mensagens em [docs/protocolo-esp-now.md](docs/protocolo-esp-now.md).
@@ -84,18 +84,18 @@ A comunicação é por **ESP-NOW em broadcast no canal 1**: sem roteador, sem in
 
 | Placa | Componentes |
 |---|---|
-| ESP1 – Pulseira | ESP32 DevKit (ESP-32S) · OLED 0,96" SSD1306 I2C · buzzer passivo KY-006 · 2 filamentos de LED 3 V (azul e amarelo) |
-| ESP2 – Máquina | ESP32 DevKit · DHT11 (KY-015) · MPU6050 (GY-521) · TFT 1.8" ST7735 SPI |
+| ESP1 – SentryBand | ESP32 DevKit (ESP-32S) · OLED 0,96" SSD1306 I2C · buzzer passivo KY-006 · 2 filamentos de LED 3 V (azul e amarelo) |
+| ESP2 – Sentinela | ESP32 DevKit · DHT11 (KY-015) · MPU6050 (GY-521) · TFT 1.8" ST7735 SPI |
 | ESP3 – Zona | ESP32-S3 mini (sem componentes externos) |
 
 | ESP | Módulo | Pino do módulo | Liga no pino |
 |---|---|---|---|
-| **ESP1 (pulseira)** | Tela OLED 0,96" | VCC / GND | 3V3 / GND |
+| **ESP1 (SentryBand)** | Tela OLED 0,96" | VCC / GND | 3V3 / GND |
 | | | SCL / SDA | GPIO 22 / GPIO 21 |
 | | Buzzer passivo KY-006 | S / meio / − | GPIO 32 / não liga / GND |
 | | Filamento de LED azul | + / − | GPIO 25 / GND |
 | | Filamento de LED amarelo | + / − | GPIO 26 / GND |
-| **ESP2 (máquina)** | DHT11 (KY-015) | S / meio (+) / − | GPIO 4 / 3V3 / GND |
+| **ESP2 (Sentinela)** | DHT11 (KY-015) | S / meio (+) / − | GPIO 4 / 3V3 / GND |
 | | Tela TFT 1.8" (ST7735) | VCC / GND / LED | 3V3 / GND / 3V3 |
 | | | CS / RESET / A0 | GPIO 5 / GPIO 22 / GPIO 21 |
 | | | SDA (MOSI) / SCK | GPIO 23 / GPIO 18 |
@@ -108,23 +108,23 @@ Todos os módulos são alimentados no **3V3**, e nenhum fio vai no 5V. Lista de 
 
 ## Como funciona
 
-**Temperatura (ESP2).**
+**Temperatura (Sentinela).**
 - O DHT11 é lido a cada 2 s.
 - O alarme liga em 35 °C e só desliga em 34 °C (histerese).
 - Falhas isoladas do sensor repetem a última leitura boa; o erro só é declarado depois de 3 falhas seguidas.
 
-**Vibração (ESP2).**
+**Vibração (Sentinela).**
 - O MPU6050 é lido direto pelos registradores, a 500 Hz, com escala de ±4 g e filtro de 184 Hz.
 - A cada segundo, a vibração é o **RMS da aceleração sem a gravidade**: a raiz da soma das variâncias dos três eixos, calculadas com somas inteiras de 64 bits. O resultado não depende da posição em que o sensor foi colado.
 - O alarme exige 2 s seguidos acima de 0,50 g, para uma batida isolada não disparar.
 
-**Zona de perigo (ESP1 + ESP3).**
+**Zona de perigo (SentryBand + farol).**
 - A pulseira mede a força (RSSI) dos sinais do farol e converte em distância pelo modelo log-distância:
   $\text{RSSI}(d) = \text{RSSI}_{1m} - 10\,n\,\log_{10}(d)$, com $n = 2{,}5$.
 - A média é recalculada a cada 200 ms, com pesos diferentes para o sinal que sobe (0,5) e para o que desce (0,3). Assim ela avisa rápido quando a pessoa chega e não fica liga-desliga na borda.
 - Pelo botão BOOT, o trabalhador escolhe a distância (1, 2, 3 ou 5 m) e calibra a borda parado nela. Os valores ficam gravados na memória flash (NVS).
 
-**Pulseira (ESP1).**
+**SentryBand (ESP1).**
 - Uma máquina de estados combina os alarmes da máquina (só se os dados tiverem menos de 10 s) com a zona de perigo, que funciona mesmo sem a máquina.
 - Cada alarme tem o seu padrão de bipe, e com mais de um ativo eles se revezam.
 
@@ -168,8 +168,8 @@ Detalhes, a saída completa da simulação, os diagnósticos de hardware e os pr
 ## Estrutura do repositório
 
 ```
-├── esp1_pulseira/esp1_pulseira.ino   ESP1 – pulseira: recepção, zona, alarmes, OLED, buzzer, LEDs
-├── esp2_motor/esp2_motor.ino         ESP2 – máquina: DHT11, MPU6050, decisão dos alarmes, TFT
+├── esp1_pulseira/esp1_pulseira.ino   ESP1 – SentryBand: recepção, zona, alarmes, OLED, buzzer, LEDs
+├── esp2_motor/esp2_motor.ino         ESP2 – Sentinela: DHT11, MPU6050, decisão dos alarmes, TFT
 ├── esp3_zona/esp3_zona.ino           ESP3 – farol da zona de perigo
 ├── docs/
 │   ├── hardware-e-ligacoes.md        materiais, onde vai cada fio, mapa de pinos

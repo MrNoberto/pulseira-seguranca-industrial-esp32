@@ -6,8 +6,8 @@
    `https://espressif.github.io/arduino-esp32/package_esp32_index.json`
 2. No Gerenciador de Placas, instale **esp32 by Espressif Systems** (versão 3.x; o projeto usou a 3.3.12).
 3. No Gerenciador de Bibliotecas, instale:
-   - para o **ESP2 (máquina):** *DHT sensor library* (Adafruit), *Adafruit Unified Sensor*, *Adafruit GFX Library* e *Adafruit ST7735 and ST7789 Library*;
-   - para o **ESP1 (pulseira):** *U8g2* (de oliver);
+   - para o **ESP2 (Sentinela):** *DHT sensor library* (Adafruit), *Adafruit Unified Sensor*, *Adafruit GFX Library* e *Adafruit ST7735 and ST7789 Library*;
+   - para o **ESP1 (SentryBand):** *U8g2* (de oliver);
    - o MPU6050 e o ESP3 não precisam de biblioteca.
 4. Grave cada pasta na sua placa:
 
@@ -30,12 +30,12 @@ arduino-cli compile --fqbn esp32:esp32:esp32s3:CDCOnBoot=cdc --upload -p /dev/tt
 ## Colocando para funcionar
 
 1. **ESP3 (zona):** ligue numa fonte USB no centro da área perigosa, no alto e longe de metal.
-2. **ESP2 (máquina):** ligue perto da máquina, com o MPU6050 bem preso à estrutura e o DHT11 no ar em volta dela, sem encostar em superfícies quentes.
-3. **ESP1 (pulseira):** ao ligar, dá um bipe curto e acende os dois LEDs por meio segundo (teste do buzzer e dos LEDs). Em poucos segundos, a tela mostra a temperatura da máquina e a distância até a zona.
+2. **ESP2 (Sentinela):** ligue perto da máquina, com o MPU6050 bem preso à estrutura e o DHT11 no ar em volta dela, sem encostar em superfícies quentes.
+3. **ESP1 (SentryBand):** ao ligar, dá um bipe curto e acende os dois LEDs por meio segundo (teste do buzzer e dos LEDs). Em poucos segundos, a tela mostra a temperatura da máquina e a distância até a zona.
 
 A ordem em que as placas são ligadas não importa.
 
-## O que a pulseira mostra
+## O que a SentryBand mostra
 
 | Situação | Tela | Bipe | LED azul | LED amarelo |
 |---|---|---|---|---|
@@ -72,7 +72,7 @@ A distância e a calibração ficam salvas mesmo desligando a pulseira. Recalibr
 
 ![calibrado](imagens/oled-calibrado.png)
 
-## O painel da máquina (TFT)
+## O painel do Sentinela (TFT)
 
 ![TFT normal](imagens/tft-normal.png)
 

@@ -32,8 +32,8 @@ esp_now_init();
 ```mermaid
 sequenceDiagram
     autonumber
-    participant M as ESP2 · Máquina
-    participant P as ESP1 · Pulseira
+    participant M as ESP2 · Sentinela
+    participant P as ESP1 · SentryBand
     participant Z as ESP3 · Zona
     loop a cada 100 ms
         Z-->>P: PacoteZona (broadcast) — a pulseira mede o RSSI
@@ -49,7 +49,7 @@ sequenceDiagram
 
 | Mensagem | Enviada por | Frequência | Tamanho | Assinatura |
 |---|---|---|---|---|
-| `PacoteMotor` v4 | ESP2 (máquina) | 1 por segundo | 35 bytes | `0x4E425431` ("NBT1") |
+| `PacoteMotor` v4 | ESP2 (Sentinela) | 1 por segundo | 35 bytes | `0x4E425431` ("NBT1") |
 | `PacoteZona` v1 | ESP3 (zona) | 10 por segundo | 10 bytes | `0x4E425A31` ("NBZ1") |
 
 ## Formato das mensagens

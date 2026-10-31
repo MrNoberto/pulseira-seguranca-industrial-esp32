@@ -1,6 +1,6 @@
 /*
   ============================================================
-   ESP2 - MOTOR  -  Projeto "Pulseira Monitor de Motor"
+   ESP2 - SENTINELA (máquina)  -  Projeto SentryBand
    Placa: ESP32 DevKit (o "tradicional", 30 ou 38 pinos)
    Autor: Noberto
   ============================================================

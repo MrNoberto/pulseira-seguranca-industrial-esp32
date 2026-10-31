@@ -1,6 +1,6 @@
 /*
   ============================================================
-   ESP3 - ZONA DE PERIGO  -  Projeto "Pulseira Monitor de Motor"
+   ESP3 - ZONA DE PERIGO (farol)  -  Projeto SentryBand
    Placa: ESP32-S3 mini (serve qualquer ESP32)
    Autor: Noberto
   ============================================================

@@ -1,6 +1,6 @@
 # Algoritmos e técnicas
 
-Este documento explica como cada firmware funciona por dentro e o motivo de cada escolha. Os valores citados são os do código atual.
+Este documento explica como cada firmware funciona por dentro e o motivo de cada escolha. Os valores citados são os do código atual. Nomes usados no projeto: a pulseira é a **SentryBand** (ESP1) e o dispositivo da máquina, que detecta incêndio e vibração, é o **Sentinela** (ESP2).
 
 ## Sumário
 
@@ -20,8 +20,8 @@ Os três firmwares são escritos para o Arduino core do ESP32 (versão 3.x, base
 
 | Firmware | Ritmo do `loop()` |
 |---|---|
-| **ESP2 – máquina** | acelerômetro a cada 2 ms · DHT11 a cada 2 s · a cada 1 s fecha a janela de vibração, decide os alarmes e envia · redesenha a TFT a cada segundo, a cada dado novo e a cada 0,5 s quando há alarme piscando · um ponto no gráfico a cada 7 s |
-| **ESP1 – pulseira** | processa a mensagem do motor assim que chega · decide a zona a cada 200 ms · lê o botão · máquina de estados e bipes · LEDs · redesenha a OLED a cada 0,5 s ou quando algo muda · pausa de 2 ms por volta |
+| **ESP2 – Sentinela** | acelerômetro a cada 2 ms · DHT11 a cada 2 s · a cada 1 s fecha a janela de vibração, decide os alarmes e envia · redesenha a TFT a cada segundo, a cada dado novo e a cada 0,5 s quando há alarme piscando · um ponto no gráfico a cada 7 s |
+| **ESP1 – SentryBand** | processa a mensagem do motor assim que chega · decide a zona a cada 200 ms · lê o botão · máquina de estados e bipes · LEDs · redesenha a OLED a cada 0,5 s ou quando algo muda · pausa de 2 ms por volta |
 | **ESP3 – zona** | envia um farol a cada 100 ms e um resumo no Monitor Serial a cada 5 s |
 
 ## Temperatura e detecção de incêndio (ESP2)
